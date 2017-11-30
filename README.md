@@ -51,7 +51,7 @@ Moj projekt bo vsebova 5 tabel. Podatki, ki jih tabele vsebujejo po stolpcih so:
 - POVPREČNO ŠTEVILO PIK NA TEKMO
 
 
-S to nalogo poskusam ugotoviti, katere države so bile najbolj uspešne na evropskih prvenstvih, teh kateri so njboljši košarkaši evrope in od kod prihajajo.
+S to nalogo poskusam ugotoviti, katere države so bile najbolj uspešne na evropskih prvenstvih, teh kateri so najboljši košarkaši evrope in od kod prihajajo.
 
 ## Program
 
