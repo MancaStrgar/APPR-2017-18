@@ -51,6 +51,7 @@ Moj projekt bo vsebova 5 tabel. Podatki, ki jih tabele vsebujejo po stolpcih so:
 
 
 S to nalogo poskusam ugotoviti, katere države so bile najbolj uspešne na evropskih prvenstvih, teh kateri so njboljši košarkaši evrope in od kod prihajajo.
+=======
 
 ## Program
 
