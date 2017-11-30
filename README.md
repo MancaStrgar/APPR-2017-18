@@ -3,6 +3,7 @@
 Repozitorij z gradivi pri predmetu APPR v študijskem letu 2017/18
 
 ## Tematika
+
 Odločila sem se, da bom analizirala slovenske košarkaše na letošnjem evropskem prvenstvu in evropska košarkaška prvenstva. Za to temo sem se odločila, saj me košarka že od vedno zanima, letos pa smo postali še evropski prvaki. Podatke sem dobila na:
 
 - http://www.kzs.si/tekmovanja-in-projekti/reprezentance/clani/zgodovina/2017/
@@ -51,7 +52,6 @@ Moj projekt bo vsebova 5 tabel. Podatki, ki jih tabele vsebujejo po stolpcih so:
 
 
 S to nalogo poskusam ugotoviti, katere države so bile najbolj uspešne na evropskih prvenstvih, teh kateri so njboljši košarkaši evrope in od kod prihajajo.
-=======
 
 ## Program
 
