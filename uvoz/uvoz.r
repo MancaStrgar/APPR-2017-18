@@ -8,9 +8,7 @@ uvozi.ep.rezultati <- function() {
   stran <- html_session(link) %>% read_html()
   tabela1 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
     .[[1]] %>% html_table(dec = ",", fill = TRUE)
-  tabela1 <- tabela1[-1,-2]
-  tabela1 <- tabela1[,-3]
-  tabela1 <- tabela1[,-5]
+  tabela1 <- tabela1[-1,-c(2, 4, 7)]
   colnames(tabela1) <- c("LETO","ZMAGOVALEC","DRUGI", "TRETJI","ČETRTI")
   for (i in 1:ncol(tabela1)) {
     if (is.character(tabela1[[i]])) {
