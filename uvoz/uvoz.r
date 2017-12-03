@@ -10,7 +10,7 @@ uvozi.ep.rezultati <- function() {
     .[[1]] %>% html_table(dec = ",", fill = TRUE)
   tabela1 <- tabela1[-1,-c(2, 4, 7)]
   colnames(tabela1) <- c("LETO","ZMAGOVALEC","DRUGI", "TRETJI","ČETRTI")
-  tabela1$LETO <- tabela1$LETO %>% gsubfn("([0-9]+)") %>% unlist() %>% parse_integer()
+  tabela1$LETO <- tabela1$LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer()
   for (i in 1:ncol(tabela1)) {
     if (is.character(tabela1[[i]])) {
       Encoding(tabela1[[i]]) <- "UTF-8"
