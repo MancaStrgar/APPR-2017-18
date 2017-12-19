@@ -9,13 +9,14 @@ uvozi.ep.rezultati <- function() {
   tabela1 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
     .[[1]] %>% html_table(dec = ",", fill = TRUE)
   tabela1 <- tabela1[-1,-c(2, 4, 7)]
-  colnames(tabela1) <- c("LETO","ZMAGOVALEC","DRUGI", "TRETJI","ČETRTI")
+  colnames(tabela1) <- c("LETO","ZMAGOVALEC","DRUGI", "TRETJI","CETRTI")
   tabela1$LETO <- tabela1$LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer()
   tabela1$ZMAGOVALEC <-gsub("ZRJ", "Srbija", tabela1$ZMAGOVALEC)
   tabela1$TRETJI <-gsub("ZRJ", "Srbija", tabela1$TRETJI)
-<<<<<<< HEAD
   return(tabela1)
 }
+
+
 uvozi.ep.rezultati <- function() {
   link <- "https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_košarki"
   stran <- html_session(link) %>% read_html()
@@ -29,9 +30,11 @@ uvozi.ep.rezultati <- function() {
   Encoding(tabela1$Drzava) <- "UTF-8"
   return(tabela1)
 }
-=======
+
+
+
   
-}
+
 uvozi.ep.rezultati <- function() {
   link <- "https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_košarki"
   stran <- html_session(link) %>% read_html()
@@ -68,14 +71,11 @@ uvozi.slo.reprezentanca <- function() {
   stran <- html_session(link) %>% read_html()
   tabela3 <- stran %>% html_nodes(xpath="//table[@class='tabela_podatki']") %>%
     .[[1]] %>% html_table(dec = ",", fill = TRUE)
-  tabela3 <- tabela3[c("IME IN PRIIMEK", "IGRALNO MESTO", "VIŠINA", "ROJEN", "KLUB")]
-  tabela3 <- tabela3 %>% mutate(VIŠINA = parse_number(VIŠINA),
+  tabela3 <- tabela3[,-1]
+  colnames(tabela3) <- c("IME", "POZICIJA", "VISINA", "ROJEN", "KLUB")
+  tabela3 <- tabela3 %>% mutate(VISINA = parse_number(VISINA),
                                ROJEN = gsub("[^0-9.]", "", ROJEN) %>% parse_date("%d.%m.%Y"))
-<<<<<<< HEAD
- return(tabela3)
-=======
- 
->>>>>>> 26294b75dc2e2967074904f4cbad5c89fdadf161
+  return(tabela3)
 }
 
 
@@ -99,10 +99,10 @@ uvozi.MVP <- function() {
                                { gsub("_", " ", gsub("_\\(.*", "", gsub("^the_", "", .))) }) %>%
                       .[1]) %>% { ifelse(sapply(., is.list),NA, .) } %>%
              unlist()) %>% t() %>% data.frame()
-  tabela4$DRŽAVA <- drzave[[2]]
-  tabela4$DRŽAVA <-gsub("Second Spanish Republic", "Spain", tabela4$DRŽAVA)
-  tabela4$DRŽAVA <-gsub("SFR Yugoslavia", "Yugoslavia", tabela4$DRŽAVA)
-  tabela4$DRŽAVA <-gsub("FR Yugoslavia", "Srbia", tabela4$DRŽAVA)
+  tabela4$DRZAVA <- drzave[[2]]
+  tabela4$DRZAVA <-gsub("Second Spanish Republic", "Spain", tabela4$DRZAVA)
+  tabela4$DRZAVA <-gsub("SFR Yugoslavia", "Yugoslavia", tabela4$DRZAVA)
+  tabela4$DRZAVA <-gsub("FR Yugoslavia", "Srbia", tabela4$DRZAVA)
   
   drzave.slo <- c(
     "Spain" = "Španija",
@@ -118,9 +118,11 @@ uvozi.MVP <- function() {
     "Germany" = "Nemčija",
     "Yugoslavia" = "Jugoslavija",
     "Slovenia" = "Slovenija",
-    "Israel" = "Izrael",
+    "Israel" = "Izrael"
 )
-  tabela4 <- tabela4 %>% mutate(DRŽAVA = drzave.slo[DRŽAVA])
+  tabela4 <- tabela4 %>% mutate(DRZAVA = drzave.slo[DRZAVA])
+  return(tabela4)
+}
   
   
 
@@ -132,6 +134,8 @@ uvozi.najboljsi.strelec <- function() {
   stran <- html_session(link) %>% read_html()
   tabela5 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
     .[[4]] %>% html_table(dec = ",", fill = TRUE)
+  colnames(tabela5) <- c("LETO", "STRELEC", "TOCKE")
+  
   html_tabela5 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>% .[[4]]
   tabela5 <- html_tabela5 %>% html_table(fill = TRUE)
   drzave2 <- html_tabela5 %>% html_nodes(xpath=".//tr") %>% .[-1] %>%
@@ -142,9 +146,9 @@ uvozi.najboljsi.strelec <- function() {
                                { gsub("_", " ", gsub("_\\(.*", "", gsub("^the_", "", .))) }) %>%
                       .[1]) %>% { ifelse(sapply(., is.list),NA, .) } %>%
              unlist()) %>% t() %>% data.frame()
-  tabela5$DRŽAVA <- drzave2[[2]]
-  tabela5$DRŽAVA <-gsub("SFR Yugoslavia", "Yugoslavia", tabela5$DRŽAVA)
-  tabela5$DRŽAVA <-gsub("FR Yugoslavia", "Srbia", tabela5$DRŽAVA)
+  tabela5$DRZAVA <- drzave2[[2]]
+  tabela5$DRZAVA <-gsub("SFR Yugoslavia", "Yugoslavia", tabela5$DRZAVA)
+  tabela5$DRZAVA <-gsub("FR Yugoslavia", "Srbia", tabela5$DRZAVA)
   
   
   drzave2.slo <- c(
@@ -174,7 +178,9 @@ uvozi.najboljsi.strelec <- function() {
     "Russia" = "Rusija"
   )
   
-  tabela5 <- tabela5 %>% mutate(DRŽAVA = drzave2.slo[DRŽAVA])
+  tabela5 <- tabela5 %>% mutate(DRZAVA = drzave2.slo[DRZAVA])
+  return(tabela5)
+}
   
   
   
