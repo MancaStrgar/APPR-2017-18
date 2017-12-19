@@ -3,35 +3,18 @@
 sl <- locale("sl", decimal_mark = ",", grouping_mark = ".")
 
 # Funkcija, ki uvozi vodilne države na evropskem prvenstvu
-uvozi.ep.rezultati <- function() {
-  link <- "https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_košarki"
-  stran <- html_session(link) %>% read_html()
-  tabela1 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
-    .[[1]] %>% html_table(dec = ",", fill = TRUE)
-  tabela1 <- tabela1[-1,-c(2, 4, 7)]
-  colnames(tabela1) <- c("LETO","ZMAGOVALEC","DRUGI", "TRETJI","CETRTI")
-  tabela1$LETO <- tabela1$LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer()
-  tabela1$ZMAGOVALEC <-gsub("ZRJ", "Srbija", tabela1$ZMAGOVALEC)
-  tabela1$TRETJI <-gsub("ZRJ", "Srbija", tabela1$TRETJI)
-  return(tabela1)
-}
-
-
-uvozi.ep.rezultati <- function() {
-  link <- "https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_košarki"
-  stran <- html_session(link) %>% read_html()
-  tabela1 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
-    .[[1]] %>% html_table(dec = ",", fill = TRUE)
-  tabela1 <- tabela1[-1,-c(2, 4, 7)]
-  colnames(tabela1) <- c("LETO", 1:4)
-  tabela1 <- melt(tabela1, id.vars = "LETO", variable.name = "Uvrstitev", value.name = "Drzava") %>%
-    mutate(LETO = LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer(),
-           Uvrstitev = Uvrstitev %>% parse_number())
-  Encoding(tabela1$Drzava) <- "UTF-8"
-  return(tabela1)
-}
-
-
+#uvozi.ep.rezultati <- function() {
+ # link <- "https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_košarki"
+  #stran <- html_session(link) %>% read_html()
+#  tabela1 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
+ #   .[[1]] %>% html_table(dec = ",", fill = TRUE)
+#  tabela1 <- tabela1[-1,-c(2, 4, 7)]
+#  colnames(tabela1) <- c("LETO","ZMAGOVALEC","DRUGI", "TRETJI","CETRTI")
+#  tabela1$LETO <- tabela1$LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer()
+#  tabela1$ZMAGOVALEC <-gsub("ZRJ", "Srbija", tabela1$ZMAGOVALEC)
+#  tabela1$TRETJI <-gsub("ZRJ", "Srbija", tabela1$TRETJI)
+#  return(tabela1)
+#}
 
   
 
@@ -48,6 +31,8 @@ uvozi.ep.rezultati <- function() {
   Encoding(tabela1$Drzava) <- "UTF-8"
   return(tabela1)
 }
+ep.rezultati <- uvozi.ep.rezultati()
+
 
 
 # Funkcija, ki uvozi rezultate držav na EP
@@ -77,6 +62,7 @@ uvozi.slo.reprezentanca <- function() {
                                ROJEN = gsub("[^0-9.]", "", ROJEN) %>% parse_date("%d.%m.%Y"))
   return(tabela3)
 }
+slo.reprezentanca <- uvozi.slo.reprezentanca()
 
 
 
@@ -123,7 +109,7 @@ uvozi.MVP <- function() {
   tabela4 <- tabela4 %>% mutate(DRZAVA = drzave.slo[DRZAVA])
   return(tabela4)
 }
-  
+MVP <- uvozi.MVP() 
   
 
 
@@ -134,7 +120,6 @@ uvozi.najboljsi.strelec <- function() {
   stran <- html_session(link) %>% read_html()
   tabela5 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
     .[[4]] %>% html_table(dec = ",", fill = TRUE)
-  colnames(tabela5) <- c("LETO", "STRELEC", "TOCKE")
   
   html_tabela5 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>% .[[4]]
   tabela5 <- html_tabela5 %>% html_table(fill = TRUE)
@@ -179,9 +164,11 @@ uvozi.najboljsi.strelec <- function() {
   )
   
   tabela5 <- tabela5 %>% mutate(DRZAVA = drzave2.slo[DRZAVA])
+  colnames(tabela5) <- c("LETO", "STRELEC", "TOCKE", "DRZAVA")
   return(tabela5)
 }
-  
+
+najboljsi.strelec <- uvozi.najboljsi.strelec()  
   
   
   
