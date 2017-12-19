@@ -27,7 +27,7 @@ uvozi.ep.rezultati <- function() {
   colnames(tabela1) <- c("LETO", 1:4)
   tabela1 <- melt(tabela1, id.vars = "LETO", variable.name = "Uvrstitev", value.name = "Drzava") %>%
     mutate(LETO = LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer(),
-           Uvrstitev = Uvrstitev %>% parse_number())
+           Uvrstitev = Uvrstitev %>% parse_number()) %>% arrange(LETO, Uvrstitev)
   Encoding(tabela1$Drzava) <- "UTF-8"
   return(tabela1)
 }
@@ -172,25 +172,6 @@ najboljsi.strelec <- uvozi.najboljsi.strelec()
   
   
   
-  
-  for (i in 1:ncol(tabela5)) {
-    if (is.character(tabela5[[i]])) {
-      Encoding(tabela5[[i]]) <- "UTF-8"
-    }
-  }
-  colnames(tabela) <- c("obcina", "povrsina", "prebivalci", "gostota", "naselja",
-                        "ustanovitev", "pokrajina", "regija", "odcepitev")
-  tabela$obcina <- gsub("Slovenskih", "Slov.", tabela$obcina)
-  tabela$obcina[tabela$obcina == "Kanal ob Soči"] <- "Kanal"
-  tabela$obcina[tabela$obcina == "Loški potok"] <- "Loški Potok"
-  for (col in c("povrsina", "prebivalci", "gostota", "naselja", "ustanovitev")) {
-    tabela[[col]] <- parse_number(tabela[[col]], na = "-", locale = sl)
-  }
-  for (col in c("obcina", "pokrajina", "regija")) {
-    tabela[[col]] <- factor(tabela[[col]])
-  }
-  return(tabela)
-}
 
 
 
