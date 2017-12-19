@@ -11,23 +11,26 @@ uvozi.ep.rezultati <- function() {
   tabela1 <- tabela1[-1,-c(2, 4, 7)]
   colnames(tabela1) <- c("LETO","ZMAGOVALEC","DRUGI", "TRETJI","ČETRTI")
   tabela1$LETO <- tabela1$LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer()
-  for (i in 1:ncol(tabela1)) {
-    if (is.character(tabela1[[i]])) {
-      Encoding(tabela1[[i]]) <- "UTF-8"
-    }
-  }
-  colnames(tabela) <- c("obcina", "povrsina", "prebivalci", "gostota", "naselja",
-                        "ustanovitev", "pokrajina", "regija", "odcepitev")
-  tabela$obcina <- gsub("Slovenskih", "Slov.", tabela$obcina)
-  tabela$obcina[tabela$obcina == "Kanal ob Soči"] <- "Kanal"
-  tabela$obcina[tabela$obcina == "Loški potok"] <- "Loški Potok"
-  for (col in c("povrsina", "prebivalci", "gostota", "naselja", "ustanovitev")) {
-    tabela[[col]] <- parse_number(tabela[[col]], na = "-", locale = sl)
-  }
-  for (col in c("obcina", "pokrajina", "regija")) {
-    tabela[[col]] <- factor(tabela[[col]])
-  }
-  return(tabela)
+  tabela1$ZMAGOVALEC <-gsub("ZRJ", "Srbija", tabela1$ZMAGOVALEC)
+  tabela1$TRETJI <-gsub("ZRJ", "Srbija", tabela1$TRETJI)
+  
+#  for (i in 1:ncol(tabela1)) {
+#    if (is.character(tabela1[[i]])) {
+#      Encoding(tabela1[[i]]) <- "UTF-8"
+#    }
+#  }
+#  colnames(tabela) <- c("obcina", "povrsina", "prebivalci", "gostota", "naselja",
+#                        "ustanovitev", "pokrajina", "regija", "odcepitev")
+ # tabela$obcina <- gsub("Slovenskih", "Slov.", tabela$obcina)
+ # tabela$obcina[tabela$obcina == "Kanal ob Soči"] <- "Kanal"
+  #tabela$obcina[tabela$obcina == "Loški potok"] <- "Loški Potok"
+  #for (col in c("povrsina", "prebivalci", "gostota", "naselja", "ustanovitev")) {
+   # tabela[[col]] <- parse_number(tabela[[col]], na = "-", locale = sl)
+  #}
+  #for (col in c("obcina", "pokrajina", "regija")) {
+   # tabela[[col]] <- factor(tabela[[col]])
+  #}
+  #return(tabela)
 }
 
 
@@ -42,6 +45,19 @@ uvozi.drzave.rezultati <- function() {
     .[[2]] %>% html_table(dec = ",", fill = TRUE)
   tabela2 <- tabela2[-1,-1]
   colnames(tabela2) <- c("DRŽAVA", "ZLATO", "SREBRO", "BRON", "SKUPAJ")
+  html_tabela2 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>% .[[2]]
+  tabela2 <- html_tabela2 %>% html_table(fill = TRUE)
+  drzave <- html_tabela2 %>% html_nodes(xpath=".//tr") %>% .[-1] %>%
+    sapply(. %>% html_nodes(xpath="./td") %>%
+             lapply(. %>% html_nodes(xpath="./a[@class='image']") %>% html_attr("href") %>%
+                      sapply(. %>% { gsub("US_.*_Flag", "Flag_of_the_United_States", .) } %>%
+                               strapplyc("Flag_of_(.*)\\.svg") %>%
+                               { gsub("_", " ", gsub("_\\(.*", "", gsub("^the_", "", .))) }) %>%
+                      .[1]) %>% { ifelse(sapply(., is.list), NA, .) %>%
+                          c(rep(NA, 5 - length(.)))} %>%
+             unlist()) %>% t() %>% data.frame()
+  colnames(drzave) <- colnames(tabela2)
+  
   for (i in 1:ncol(tabela2)) {
     if (is.character(tabela2[[i]])) {
       Encoding(tabela2[[i]]) <- "UTF-8"
@@ -100,24 +116,42 @@ uvozi.MVP <- function() {
   stran <- html_session(link) %>% read_html()
   tabela4 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
     .[[3]] %>% html_table(dec = ",", fill = TRUE)
-  for (i in 1:ncol(tabela4)) {
-    if (is.character(tabela4[[i]])) {
-      Encoding(tabela4[[i]]) <- "UTF-8"
-    }
-  }
-  colnames(tabela) <- c("obcina", "povrsina", "prebivalci", "gostota", "naselja",
-                        "ustanovitev", "pokrajina", "regija", "odcepitev")
-  tabela$obcina <- gsub("Slovenskih", "Slov.", tabela$obcina)
-  tabela$obcina[tabela$obcina == "Kanal ob Soči"] <- "Kanal"
-  tabela$obcina[tabela$obcina == "Loški potok"] <- "Loški Potok"
-  for (col in c("povrsina", "prebivalci", "gostota", "naselja", "ustanovitev")) {
-    tabela[[col]] <- parse_number(tabela[[col]], na = "-", locale = sl)
-  }
-  for (col in c("obcina", "pokrajina", "regija")) {
-    tabela[[col]] <- factor(tabela[[col]])
-  }
-  return(tabela)
-}
+  colnames(tabela4) <- c("LETO", "MVP")
+  
+  html_tabela4 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>% .[[3]]
+  tabela4 <- html_tabela4 %>% html_table(fill = TRUE)
+  drzave <- html_tabela4 %>% html_nodes(xpath=".//tr") %>% .[-1] %>%
+    sapply(. %>% html_nodes(xpath="./td") %>%
+             lapply(. %>% html_nodes(xpath="./a[@class='image']") %>% html_attr("href") %>%
+                      sapply(. %>% { gsub("US_.*_Flag", "Flag_of_the_United_States", .) } %>%
+                               strapplyc("Flag_of_(.*)\\.svg") %>%
+                               { gsub("_", " ", gsub("_\\(.*", "", gsub("^the_", "", .))) }) %>%
+                      .[1]) %>% { ifelse(sapply(., is.list),NA, .) } %>%
+             unlist()) %>% t() %>% data.frame()
+  tabela4$DRŽAVA <- drzave[[2]]
+  tabela4$DRŽAVA <-gsub("Second Spanish Republic", "Spain", tabela4$DRŽAVA)
+  tabela4$DRŽAVA <-gsub("SFR Yugoslavia", "Yugoslavia", tabela4$DRŽAVA)
+  tabela4$DRŽAVA <-gsub("FR Yugoslavia", "Srbia", tabela4$DRŽAVA)
+  
+  drzave.slo <- c(
+    "Spain" = "Španija",
+    "Italy" = "Italija",
+    "France" = "Francija",
+    "Srbia" = "Srbija",
+    "Lithuania" = "Litva",
+    "Hungary" = "Madžarska",
+    "Soviet Union" = "Sovjetska zveza",
+    "Turkey" = "Turčija",
+    "Czech Republic" = "Češka",
+    "Croatia" = "Hrvaška",
+    "Germany" = "Nemčija",
+    "Yugoslavia" = "Jugoslavija",
+    "Slovenia" = "Slovenija",
+    "Israel" = "Izrael",
+)
+  tabela4.slo <- tabela4 %>% mutate(DRŽAVA = drzave.slo[DRŽAVA])
+  
+  
 
 
 
@@ -127,6 +161,51 @@ uvozi.najboljsi.strelec <- function() {
   stran <- html_session(link) %>% read_html()
   tabela5 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
     .[[4]] %>% html_table(dec = ",", fill = TRUE)
+  html_tabela5 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>% .[[4]]
+  tabela5 <- html_tabela5 %>% html_table(fill = TRUE)
+  drzave2 <- html_tabela5 %>% html_nodes(xpath=".//tr") %>% .[-1] %>%
+    sapply(. %>% html_nodes(xpath="./td") %>%
+             lapply(. %>% html_nodes(xpath="./a[@class='image']") %>% html_attr("href") %>%
+                      sapply(. %>% { gsub("US_.*_Flag", "Flag_of_the_United_States", .) } %>%
+                               strapplyc("Flag_of_(.*)\\.svg") %>%
+                               { gsub("_", " ", gsub("_\\(.*", "", gsub("^the_", "", .))) }) %>%
+                      .[1]) %>% { ifelse(sapply(., is.list),NA, .) } %>%
+             unlist()) %>% t() %>% data.frame()
+  tabela5$DRŽAVA <- drzave2[[2]]
+  tabela5$DRŽAVA <-gsub("SFR Yugoslavia", "Yugoslavia", tabela5$DRŽAVA)
+  tabela5$DRŽAVA <-gsub("FR Yugoslavia", "Srbia", tabela5$DRŽAVA)
+  
+  
+  drzave2.slo <- c(
+    "Spain" = "Španija",
+    "Italy" = "Italija",
+    "France" = "Francija",
+    "Srbia" = "Srbija",
+    "Lithuania" = "Litva",
+    "Hungary" = "Madžarska",
+    "Soviet Union" = "Sovjetska zveza",
+    "Turkey" = "Turčija",
+    "Czech Republic" = "Češka",
+    "Croatia" = "Hrvaška",
+    "Germany" = "Nemčija",
+    "Yugoslavia" = "Jugoslavija",
+    "Slovenia" = "Slovenija",
+    "Israel" = "Izrael",
+    "Latvia" = "Latvija",
+    "Estonia" = "Estonija",
+    "Poland" = "Poljska",
+    "Lebanon" = "Libanon",
+    "Belgium" = "Belgija",
+    "Netherlands" = "Nizozemska",
+    "Bosnia and Herzegovina" = "Bosna in Hercegovina"
+  )
+  
+  tabela5.slo <- tabela5 %>% mutate(DRŽAVA = drzave2.slo[DRŽAVA])
+  
+  
+  
+  
+  
   for (i in 1:ncol(tabela5)) {
     if (is.character(tabela5[[i]])) {
       Encoding(tabela5[[i]]) <- "UTF-8"
