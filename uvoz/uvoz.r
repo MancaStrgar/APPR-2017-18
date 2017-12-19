@@ -13,6 +13,7 @@ uvozi.ep.rezultati <- function() {
   tabela1$LETO <- tabela1$LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer()
   tabela1$ZMAGOVALEC <-gsub("ZRJ", "Srbija", tabela1$ZMAGOVALEC)
   tabela1$TRETJI <-gsub("ZRJ", "Srbija", tabela1$TRETJI)
+<<<<<<< HEAD
   return(tabela1)
 }
 uvozi.ep.rezultati <- function() {
@@ -28,8 +29,22 @@ uvozi.ep.rezultati <- function() {
   Encoding(tabela1$Drzava) <- "UTF-8"
   return(tabela1)
 }
-
-
+=======
+  
+}
+uvozi.ep.rezultati <- function() {
+  link <- "https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_košarki"
+  stran <- html_session(link) %>% read_html()
+  tabela1 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
+    .[[1]] %>% html_table(dec = ",", fill = TRUE)
+  tabela1 <- tabela1[-1,-c(2, 4, 7)]
+  colnames(tabela1) <- c("LETO", 1:4)
+  tabela1 <- melt(tabela1, id.vars = "LETO", variable.name = "Uvrstitev", value.name = "Drzava") %>%
+    mutate(LETO = LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer(),
+           Uvrstitev = Uvrstitev %>% parse_number())
+  Encoding(tabela1$Drzava) <- "UTF-8"
+  return(tabela1)
+}
 
 
 # Funkcija, ki uvozi rezultate držav na EP
@@ -56,7 +71,11 @@ uvozi.slo.reprezentanca <- function() {
   tabela3 <- tabela3[c("IME IN PRIIMEK", "IGRALNO MESTO", "VIŠINA", "ROJEN", "KLUB")]
   tabela3 <- tabela3 %>% mutate(VIŠINA = parse_number(VIŠINA),
                                ROJEN = gsub("[^0-9.]", "", ROJEN) %>% parse_date("%d.%m.%Y"))
+<<<<<<< HEAD
  return(tabela3)
+=======
+ 
+>>>>>>> 26294b75dc2e2967074904f4cbad5c89fdadf161
 }
 
 
