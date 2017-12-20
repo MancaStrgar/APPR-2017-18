@@ -14,6 +14,7 @@ uvozi.ep.rezultati <- function() {
     mutate(LETO = LETO %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer(),
            UVRSTITEV = UVRSTITEV %>% parse_number()) %>% arrange(LETO, UVRSTITEV)
   Encoding(tabela1$DRZAVA) <- "UTF-8"
+  tabela1$DRZAVA <-gsub("ZRJ", "Srbija", tabela1$DRZAVA)
   return(tabela1)
 }
 ep.rezultati <- uvozi.ep.rezultati()
@@ -77,9 +78,20 @@ drzave.slo <- c(
   "Germany" = "Nemčija",
   "Yugoslavia" = "Jugoslavija",
   "Slovenia" = "Slovenija",
-  "Israel" = "Izrael"
+  "Israel" = "Izrael",
+  "Croatia" = "Hrvaška",
+  "Latvia" = "Latvija",
+  "Estonia" = "Estonija",
+  "Poland" = "Poljska",
+  "Lebanon" = "Libanon",
+  "Belgium" = "Belgija",
+  "Netherlands" = "Nizozemska",
+  "Bosnia and Herzegovina" = "Bosna in Hercegovina",
+  "Greece" = "Grčija",
+  "Bulgaria" = "Bolgarija",
+  "Russia" = "Rusija"
 )
-tabela3 <- tabela3 %>% mutate(DRZAVA = drzave.slo[DRZAVA])
+MVP.slo <- MVP %>% mutate(DRZAVA = drzave.slo[DRZAVA])
   
 
 
@@ -112,33 +124,6 @@ uvozi.najboljsi.strelec <- function() {
 }
 najboljsi.strelec <- uvozi.najboljsi.strelec()  
 
-drzave2.slo <- c(
-  "Spain" = "Španija",
-  "Italy" = "Italija",
-  "France" = "Francija",
-  "Srbia" = "Srbija",
-  "Lithuania" = "Litva",
-  "Hungary" = "Madžarska",
-  "Soviet Union" = "Sovjetska zveza",
-  "Turkey" = "Turčija",
-  "Czech Republic" = "Češka",
-  "Croatia" = "Hrvaška",
-  "Germany" = "Nemčija",
-  "Yugoslavia" = "Jugoslavija",
-  "Slovenia" = "Slovenija",
-  "Israel" = "Izrael",
-  "Latvia" = "Latvija",
-  "Estonia" = "Estonija",
-  "Poland" = "Poljska",
-  "Lebanon" = "Libanon",
-  "Belgium" = "Belgija",
-  "Netherlands" = "Nizozemska",
-  "Bosnia and Herzegovina" = "Bosna in Hercegovina",
-  "Greece" = "Grčija",
-  "Bulgaria" = "Bolgarija",
-  "Russia" = "Rusija"
-)
-
-tabela4 <- tabela4 %>% mutate(DRZAVA = drzave2.slo[DRZAVA])
+najboljsi.strelec.slo <- najboljsi.strelec %>% mutate(DRZAVA = drzave.slo[DRZAVA])
   
   
