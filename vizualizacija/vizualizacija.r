@@ -1,5 +1,12 @@
 # 3. faza: Vizualizacija podatkov
 
+#Graf 10 držav z največ uvrstitvami med top 4 na evropskih prvenstvih
+ggplot(ep.rezultati %>% group_by(DRZAVA) %>% summarise(stevilo = n()) %>%
+         arrange(desc(stevilo)) %>% top_n(10),
+       aes(x = reorder(DRZAVA, -stevilo), y = stevilo)) + geom_col() +
+  xlab("Država") + ylab("Število uvrstitev") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
 # Uvozimo zemljevid.
 zemljevid <- uvozi.zemljevid("http://baza.fmf.uni-lj.si/OB.zip",
                              "OB/OB", encoding = "Windows-1250")
