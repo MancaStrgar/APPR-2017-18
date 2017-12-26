@@ -28,9 +28,10 @@ uvozi.slo.reprezentanca <- function() {
   tabela2 <- stran %>% html_nodes(xpath="//table[@class='tabela_podatki']") %>%
     .[[1]] %>% html_table(dec = ",", fill = TRUE)
   tabela2 <- tabela2[,-1]
-  colnames(tabela2) <- c("IME", "POZICIJA", "VISINA", "ROJEN", "KLUB")
+  colnames(tabela2) <- c("IGRALEC", "POZICIJA", "VISINA", "ROJEN", "KLUB")
   tabela2 <- tabela2 %>% mutate(VISINA = parse_number(VISINA),
                                ROJEN = gsub("[^0-9.]", "", ROJEN) %>% parse_date("%d.%m.%Y"))
+  tabela2$KLUB <-gsub("Krka", "Krka (SLO)", tabela2$KLUB)
   return(tabela2)
 }
 slo.reprezentanca <- uvozi.slo.reprezentanca()
