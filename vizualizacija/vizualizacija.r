@@ -14,7 +14,7 @@ ggplot(najboljsi.strelec, aes(x = LETO, y = TOCKE)) + geom_col() +
 
 #povprečje najboljših strelcev od leta 1935-1945
 povprečja1 <- TOCKE %>% group_by(c(1935:1945)) %>%
-  summarise(povprecje1 = sum(TOCKE/11))
+  summarise(povprecje1 = sum(TOCKE/4))
 
 # Uvozimo zemljevid.
 zemljevid <- uvozi.zemljevid("http://baza.fmf.uni-lj.si/OB.zip",
