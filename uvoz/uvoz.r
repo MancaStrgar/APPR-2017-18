@@ -1,6 +1,5 @@
 # 2. faza: Uvoz podatkov
 
-sl <- locale("sl", decimal_mark = ",", grouping_mark = ".")
 
 # Funkcija, ki uvozi vodilne države na evropskem prvenstvu
 uvozi.ep.rezultati <- function() {
@@ -38,14 +37,10 @@ slo.reprezentanca <- uvozi.slo.reprezentanca()
 
 
 
-
 # Funkcija, ki uvozi najkoristnejšege igralce EP
 uvozi.MVP <- function() {
   link <- "https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_ko%C5%A1arki"
   stran <- html_session(link) %>% read_html()
-  tabela3 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
-    .[[3]] %>% html_table(dec = ",", fill = TRUE)
-  
   html_tabela3 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>% .[[3]]
   tabela3 <- html_tabela3 %>% html_table(fill = TRUE)
   drzave <- html_tabela3 %>% html_nodes(xpath=".//tr") %>% .[-1] %>%
@@ -96,16 +91,12 @@ MVP.slo <- MVP %>% mutate(DRZAVA = drzave.slo[DRZAVA])
   
 
 
-
 # Funkcija, ki uvozi najboljše strelce na EP
 uvozi.najboljsi.strelec <- function() {
   link <- "https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_ko%C5%A1arki"
   stran <- html_session(link) %>% read_html()
-  tabela4 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>%
-    .[[4]] %>% html_table(dec = ",", fill = TRUE)
-  
-  html_tabela4 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>% .[[4]]
-  tabela4 <- html_tabela4 %>% html_table(fill = TRUE)
+  html_tabela4 <- stran %>% html_nodes(xpath="//table[@class='wikitable']") %>% .[[4]] 
+  tabela4 <- html_tabela4 %>% html_table(dec = ",", fill = TRUE)
   drzave2 <- html_tabela4 %>% html_nodes(xpath=".//tr") %>% .[-1] %>%
     sapply(. %>% html_nodes(xpath="./td") %>%
              lapply(. %>% html_nodes(xpath="./a[@class='image']") %>% html_attr("href") %>%
@@ -118,13 +109,11 @@ uvozi.najboljsi.strelec <- function() {
   tabela4$DRZAVA <-gsub("SFR Yugoslavia", "Yugoslavia", tabela4$DRZAVA)
   tabela4$DRZAVA <-gsub("FR Yugoslavia", "Srbia", tabela4$DRZAVA)
   
-  
-
   colnames(tabela4) <- c("LETO", "STRELEC", "TOCKE", "DRZAVA")
   return(tabela4)
 }
 najboljsi.strelec <- uvozi.najboljsi.strelec()  
-
 najboljsi.strelec.slo <- najboljsi.strelec %>% mutate(DRZAVA = drzave.slo[DRZAVA])
-  
+
+
   
