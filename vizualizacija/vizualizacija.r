@@ -12,6 +12,18 @@ tocke <- ggplot(najboljsi.strelec, aes(x = LETO, y = TOCKE)) + geom_line() +
   xlab("Leto") + ylab("Povprečje števila pik na tekmo") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(tibble)
+
+
+evropa <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
+                          "ne_50m_admin_0_countries", encoding = "UTF-8") %>%
+  pretvori.zemljevid() %>% filter(CONTINENT == "Europe" | SOVEREIGNT %in% c("Turkey", "Cyprus", "Russian Federation"),
+                                  long > -30)
+evropa1 <- ggplot() + geom_polygon(data = evropa, aes(x = long, y = lat, group = group))
+
 # Uvozimo zemljevid.
 zemljevid <- uvozi.zemljevid("http://baza.fmf.uni-lj.si/OB.zip",
                              "OB/OB", encoding = "Windows-1250")
