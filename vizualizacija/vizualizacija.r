@@ -21,14 +21,37 @@ library(tibble)
 evropa <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
                           "ne_50m_admin_0_countries", encoding = "UTF-8") %>%
   pretvori.zemljevid() %>% filter(CONTINENT == "Europe" | SOVEREIGNT %in% c("Turkey", "Russian Federation", "Egypt"),
-                                  long > -30)
+                                 long > -30)
 evropa1 <- ggplot() + geom_polygon(data = evropa, aes(x = long, y = lat, group = group))
 
 
 prva.mesta <- ep.rezultati %>% filter(UVRSTITEV ==1) %>% group_by(DRZAVA) %>% 
   summarise(stevilo = n()) %>% arrange(desc(stevilo)) 
 
+drzave.eng <- c("Sovjetska zveza" = "Russia",
+                "Rusija" = "Russia",
+                "Jugoslavija" = "Republic of Serbia",
+                "Srbija" = "Republic of Serbia",
+                "Litva" = "Lithuania",
+                "Španija" = "Spain" ,
+                "Italija" = "Italy",
+                "Francija" ="France" ,
+                "Madžarska" ="Hungary" ,
+                "Nemčija" ="Germany",
+                "Slovenija" ="Slovenia",
+                "Latvija" ="Latvia",
+                "Greece" = "Grčija",
+                "Češkoslovaška" = "Czech Republic",
+                "Egipt" = "Egypt"
+)
 
+zemljevid.zmagovalci <- ggplot() +
+  geom_polygon(data = prva.mesta %>%
+                 mutate(SOVEREIGNT = parse_factor(drzave.eng[DRZAVA], levels(evropa$SOVEREIGNT))) %>%
+                 group_by(SOVEREIGNT) %>% summarise(stevilo = sum(stevilo)) %>%
+                 right_join(evropa),
+               aes(x = long, y = lat, group = group, fill = stevilo)) +
+  coord_cartesian(xlim = c(-22, 40), ylim = c(30, 70))
 
 # Uvozimo zemljevid.
 zemljevid <- uvozi.zemljevid("http://baza.fmf.uni-lj.si/OB.zip",
