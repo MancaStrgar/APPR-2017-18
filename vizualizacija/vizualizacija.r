@@ -20,11 +20,9 @@ library(tibble)
 
 evropa <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
                           "ne_50m_admin_0_countries", encoding = "UTF-8") %>%
+  pretvori.zemljevid() %>% filter(REGION_WB %in% c("Europe & Central Asia","Middle East & North Africa"))
 
-  pretvori.zemljevid() %>% filter(CONTINENT == "Europe" | SOVEREIGNT %in% c("Russian Federation", "Egypt", "Turkey"),
-                                  long > -30)
-
-evropa1 <- ggplot() + geom_polygon(data = evropa, aes(x = long, y = lat, group = group))
+#evropa1 <- ggplot() + geom_polygon(data = evropa, aes(x = long, y = lat, group = group))
 
 
 prva.mesta <- ep.rezultati %>% filter(UVRSTITEV ==1) %>% group_by(DRZAVA) %>% 
@@ -55,16 +53,3 @@ zemljevid.zmagovalci <- ggplot() +
                aes(x = long, y = lat, group = group, fill = stevilo)) +
   coord_cartesian(xlim = c(-22, 40), ylim = c(30, 70))
 
-# Uvozimo zemljevid.
-zemljevid <- uvozi.zemljevid("http://baza.fmf.uni-lj.si/OB.zip",
-                             "OB/OB", encoding = "Windows-1250")
-levels(zemljevid$OB_UIME) <- levels(zemljevid$OB_UIME) %>%
-  { gsub("Slovenskih", "Slov.", .) } %>% { gsub("-", " - ", .) }
-zemljevid$OB_UIME <- factor(zemljevid$OB_UIME, levels = levels(obcine$obcina))
-zemljevid <- pretvori.zemljevid(zemljevid)
-
-
-
-# Izračunamo povprečno velikost družine
-povprecja <- druzine %>% group_by(obcina) %>%
-  summarise(povprecje = sum(velikost.druzine * stevilo.druzin) / sum(stevilo.druzin))
