@@ -5,25 +5,24 @@ top10 <- ggplot(ep.rezultati %>% group_by(DRZAVA) %>% summarise(stevilo = n()) %
          arrange(desc(stevilo)) %>% top_n(10),
        aes(x = reorder(DRZAVA, -stevilo), y = stevilo)) + geom_col() +
   xlab("Država") + ylab("Število uvrstitev") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  ggtitle(" 10 najuspešnejših držav na EP")
 
-#Graf povprešnjega števila metov na igro najboljših strelceu po letih
+#Graf povprečnjega števila metov na igro najboljših strelceu po letih
 tocke <- ggplot(najboljsi.strelec, aes(x = LETO, y = TOCKE)) + geom_line() +
-  xlab("Leto") + ylab("Povprečje števila pik na tekmo") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  xlab("Leto") + ylab("Točke") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  ggtitle("Povprečno število metov na igro najboljših strelceu po letih")
 
 library(ggplot2)
 library(dplyr)
 library(readr)
 library(tibble)
 
-
+#Zemljevid zmagovalcev EP
 evropa <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
                           "ne_50m_admin_0_countries", encoding = "UTF-8") %>%
   pretvori.zemljevid() %>% filter(REGION_WB %in% c("Europe & Central Asia","Middle East & North Africa"))
-
-#evropa1 <- ggplot() + geom_polygon(data = evropa, aes(x = long, y = lat, group = group))
-
 
 prva.mesta <- ep.rezultati %>% filter(UVRSTITEV ==1) %>% group_by(DRZAVA) %>% 
   summarise(stevilo = n()) %>% arrange(desc(stevilo)) 
