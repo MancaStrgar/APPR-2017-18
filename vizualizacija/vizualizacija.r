@@ -1,7 +1,7 @@
 # 3. faza: Vizualizacija podatkov
 
 #Graf 10 držav z največ uvrstitvami med top 4 na evropskih prvenstvih
-top10 <- ggplot(ep.rezultati %>% group_by(DRZAVA) %>% summarise(stevilo = n()) %>%
+top10 <- ggplot(ep.rezultati %>% group_by(DRZAVA ) %>% summarise(stevilo = n()) %>%
          arrange(desc(stevilo)) %>% top_n(10),
        aes(x = reorder(DRZAVA, -stevilo), y = stevilo)) + geom_col() +
   xlab("Država") + ylab("Število uvrstitev") +
@@ -13,6 +13,14 @@ tocke <- ggplot(najboljsi.strelec, aes(x = LETO, y = TOCKE)) + geom_line() +
   xlab("Leto") + ylab("Točke") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   ggtitle("Povprečno število metov na igro najboljših strelceu po letih")
+
+#Graf najuspešnejših držav, glede na število MVP-jeu skozi vse EP-je
+MVP.top10 <- ggplot(MVP.slo %>% group_by(DRZAVA) %>% summarise(stevilo = n()) %>%
+                  arrange(desc(stevilo)),
+                aes(x = reorder(DRZAVA, -stevilo), y = stevilo)) + geom_col() +
+  xlab("Država") + ylab("Število MVP-jev") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+  ggtitle(" Število MVP-jev na državo")
 
 library(ggplot2)
 library(dplyr)
