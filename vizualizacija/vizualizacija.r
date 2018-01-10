@@ -12,11 +12,10 @@ top10 <- ggplot(ep.rezultati %>% group_by(DRZAVA ) %>% summarise(stevilo = n()) 
 tocke <- ggplot(najboljsi.strelec, aes(x = LETO, y = TOCKE)) + geom_line() +
   xlab("Leto") + ylab("Točke") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
-  ggtitle("Povprečno število metov na igro najboljših strelceu po letih")
+  ggtitle("Povprečno število metov na igro najboljših strelcev po letih")
 
 #Graf najuspešnejših držav, glede na število MVP-jeu skozi vse EP-je
-MVP.top10 <- ggplot(MVP.slo %>% group_by(DRZAVA) %>% summarise(stevilo = n()) %>%
-                  arrange(desc(stevilo)),
+MVP.drzave <- ggplot(MVP.slo %>% group_by(DRZAVA) %>% summarise(stevilo = n()),
                 aes(x = reorder(DRZAVA, -stevilo), y = stevilo)) + geom_col() +
   xlab("Država") + ylab("Število MVP-jev") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
