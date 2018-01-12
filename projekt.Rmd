@@ -1,16 +1,17 @@
 ---
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
-author: "Študent FMF"
+subtitle: "Evropska prvenstva v košarki"
+author: "Manca Strgar"
 output:
   html_document: default
   pdf_document:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
-runtime: shiny
+
 ---
 
-```{r setup, echo=FALSE, results='hide', message=FALSE}
+```{r setup, echo=FALSE, results='hide', warning=FALSE, message= FALSE}
 # Če želimo nastaviti pisave v PDF-ju, odkomentiramo
 # in sledimo navodilom v programu.
 #source("fontconfig.r", encoding = "UTF-8")
@@ -21,83 +22,46 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Za vzorec bomo prikazali nekaj podatkov o slovenskih občinah.
+Odločila sem se, da bom analizirala slovenske košarkaše na letošnjem evropskem prvenstvu in evropska košarkaška prvenstva. Za to temo sem se odločila, saj me košarka že od vedno zanima, letos pa smo postali še evropski prvaki.
 
 ***
 
 # Obdelava, uvoz in čiščenje podatkov
 
-```{r uvoz, echo=FALSE, message=FALSE}
+```{r uvoz, echo=FALSE, message=FALSE, warning=FALSE}
 source("uvoz/uvoz.r", encoding = "UTF-8")
+source("vizualizacija/vizualizacija.r", encoding ="UTF-8")
+```
+Uvozila sem podatke o najboljših državah in najboljših košarkaših na evropskih prvenstvih od leta 1935 do leta 2017, v obliki *HTML* z [wikipedije](https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_košarki). Ker smo zadnje prvenstvo slovenci osvojili zlato medaljo, sem uvozila še podatke slovenskih košarkarjev, ki so nas zastopali na tem prvenstvu. Podatke sem uvozila v obliki *HTML* s spletne strani [KZS](http://www.kzs.si/tekmovanja-in-projekti/reprezentance/clani/zgodovina/2017/).
+
+
+
+### Opis tabel:
+
+Tabela **ep.rezultati** ima 3 stolpce. Prvi stolpec predstavlja *leta* (integer) v katerih so izvajala evropska prvenstva, drugi predstavlja *uvrstitev* (numeric) od prvega do četrtega mesta, tretji pa katera *država* (character) se je uvrstila na na določeno mesto v določenem letu.
+
+Velja še omeniti, da so evropska prvenstva vsako drugo leto in da v času od leta 1939 do leta 1946 ni bilo tekmovanj, zaradi druge stvetovne vojne, potem pa so imeli prvenstva kar dve leti zapored, nato pa ponovno na dve leti.
+
+```{r ep.rezultati, echo=FALSE, message=FALSE}
+kable(head(ep.rezultati), align="ccc")
 ```
 
-Uvozili smo podatke o občinah v obliki CSV s statističnega urada ter v obliki HTML
-z Wikipedije. Podatke imamo v dveh razpredelnicah v obliki *tidy data*.
 
-1. `druzine` - podatki o družinah za vsako občino
-  - `obcina` - spremenljivka: ime občine (neurejen faktor),
-  - `velikost.druzine` - spremenljivka: število otrok v družini (število: 1, 2, 3 ali 4, kjer zadnja vrednost pomeni 4 ali več),
-  - `stevilo.druzin` - meritev: število družin z ustreznim številom otrok v ustrezni občini (število).
+Tabela **MVP.slo** prikazuje kateri igralec je bil najkoristnejši igralec prvenstva. Prvi stolpec so ponovno *leta* (integer) prvenstev, drugi stolpec vsebuje imena najkoristnejšega *igralca* (character) tistega leta, tretji stolpec pa iz katere *države* (character) ta igralec prihaja.
 
-2. `obcine` - podatki o občinah
-  - `obcina` - spremenljivka: ime občine (neurejen faktor),
-  - `povrsina` - meritev: površina občine v km$^2$ (število),
-  - `prebivalci` - meritev: prebivalstvo občine (število),
-  - `gostota` - meritev: število prebivalcev na km$^2$ (število),
-  - `naselja` - meritev: število naselij v občini (število),
-  - `ustanovitev` - meritev: leto ustanovitve občine (število),
-  - `pokrajina` - meritev: pokrajina, ki ji občina pripada (neurejen faktor),
-  - `regija` - meritev: regija, ki ji občina pripada (neurejen faktor),
-  - `odcepitev` - meritev: podatki o občinah, od katerih se je občina odcepila (besedilo).
-
-**Opomba**: da bi razpredelnica `obcine` res bila v obliki *tidy data*, bi morali odstraniti stolpec `gostota` (saj je izpeljan iz stolpcev `povrsina` in `prebivalci`), podatke o pokrajinah pa bi morali premakniti v drugo razpredelnico, saj nekatere občine pripadajo dvema pokrajinama. Podobno bi morali narediti tudi s stolpcem `odcepitev`.
-
-Spodnji graf prikazuje porazdelitev števila naselij v občinah.
-
-```{r histogram, echo=FALSE, message=FALSE, fig.align='center', fig.cap='Histogram števila naselij v občinah'}
-ggplot(obcine, aes(x = naselja)) + geom_histogram() +
-  ggtitle("Pogostost števila naselij") + xlab("Število naselij") + ylab("Število občin")
+```{r MVP.slo, echo=FALSE, message=FALSE}
+kable(head(MVP.slo), align="ccc")
 ```
 
-***
 
-# Analiza in vizualizacija podatkov
+Iz tabele **najboljsi.strelec.slo** je možno po stolpcih razbrati, kdo je bil katerega *leta*(integer) *igralec* (character), ki je v povprečju dal največ točk na tekmo. V tretjem in četrtek stolpcu je razvidno tudi, kakšno je bilo to povprečje *točk* (numeric) na tekmo in iz katere *države* (character) ta igralec prihaja. 
 
-```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE}
-source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
+```{r najboljsi.strelec.slo, echo=FALSE, message=FALSE}
+kable(head(najboljsi.strelec.slo), align="cccc")
 ```
 
-Spodnji zemljevid prikazuje povprečno velikost družine za vsako občino.
+Kot zanimivost pa je dodana zadnja tabela **slo.reprezentanca**, v kateri so predstavljeni košarkaši, ki so nas zastopali na evropskem prvenstvu leta 2017 in osvojili zlato medaljo. V prvem stolpcu imamo *imena*(character) košarkarjev, drugi stolpec predstavlja *pozicijo* (character), katero igralec igra, nato imamo podano *višino* (numeric) in datum *rojstva* (date), zadnji stolpec pa predstavlja *klub* (character) v katerem igra. 
 
-```{r zemljevid, echo=FALSE, fig.align='center', fig.cap='Zemljevid povprečnega števila otrok v družini'}
-ggplot() + geom_polygon(data = left_join(zemljevid, povprecja, by = c("OB_UIME" = "obcina")),
-                        aes(x = long, y = lat, group = group, fill = povprecje)) +
-  ggtitle("Povprečno število otrok v družini") + xlab("") + ylab("") +
-  guides(fill = guide_colorbar(title = "Povprečje"))
-```
-
-***
-
-# Napredna analiza podatkov
-
-```{r analiza, echo=FALSE, message=FALSE}
-source("analiza/analiza.r", encoding = "UTF-8")
-```
-
-Spodnji graf prikazuje povezavo med številom naselij in površino občine.
-
-```{r graf, echo=FALSE, fig.align='center', fig.cap='Povezava med številom naselij in površino občine'}
-ggplot(inner_join(obcine, data.frame(obcina = names(skupine),
-                                     skupina = factor(skupine)), by = "obcina")
-, aes(x = povrsina, y = naselja, color = skupina, size = prebivalci/1000)) + geom_point() +
-  ggtitle("Število naselij glede na površino občine") +
-  xlab(expression("Površina (km"^2 * ")")) + ylab("Št. naselij") +
-  guides(color = guide_legend(title = "Skupina"),
-         size = guide_legend(title = "Prebivalci (* 1000)"))
-```
-
-***
-
-```{r shiny, echo = FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=600))
+```{r slo.reprezentanca, echo=FALSE, message=FALSE}
+kable(head(slo.reprezentanca), align="ccccc")
 ```
