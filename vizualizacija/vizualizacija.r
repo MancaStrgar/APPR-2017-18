@@ -57,5 +57,6 @@ zemljevid.zmagovalci <- ggplot() +
                  group_by(SOVEREIGNT) %>% summarise(stevilo = sum(stevilo)) %>%
                  right_join(evropa),
                aes(x = long, y = lat, group = group, fill = stevilo)) +
+  ggtitle("Zmagovalci evropskega prvenstva") +
   coord_cartesian(xlim = c(-22, 40), ylim = c(30, 70))
 
