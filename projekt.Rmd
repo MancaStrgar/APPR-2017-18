@@ -8,6 +8,7 @@ output:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
+runtime: shiny
 
 ---
 
@@ -32,8 +33,7 @@ Odločila sem se, da bom analizirala slovenske košarkaše na letošnjem evropsk
 source("uvoz/uvoz.r", encoding = "UTF-8")
 source("vizualizacija/vizualizacija.r", encoding ="UTF-8")
 ```
-Uvozila sem podatke o najboljših državah in najboljših košarkaših na evropskih prvenstvih od leta 1935 do leta 2017, v obliki *HTML* z [wikipedije](https://sl.wikipedia.org/wiki/Evropsko_prvenstvo_v_košarki). Ker smo zadnje prvenstvo slovenci osvojili zlato medaljo, sem uvozila še podatke slovenskih košarkarjev, ki so nas zastopali na tem prvenstvu. Podatke sem uvozila v obliki *HTML* s spletne strani [KZS](http://www.kzs.si/tekmovanja-in-projekti/reprezentance/clani/zgodovina/2017/).
-
+Uvozila sem podatke o najboljših državah in najboljših košarkaših na evropskih prvenstvih od leta 1935 do leta 2017, v obliki *HTML* z *wikipedije*. Ker smo zadnje prvenstvo slovenci osvojili zlato medaljo, sem uvozila še podatke slovenskih košarkarjev, ki so nas zastopali na tem prvenstvu. Podatke sem uvozila v obliki *HTML* s spletne strani *KZS* (Košarkaška zveza Slovenije)
 
 
 ### Opis tabel:
@@ -64,4 +64,56 @@ Kot zanimivost pa je dodana zadnja tabela **slo.reprezentanca**, v kateri so pre
 
 ```{r slo.reprezentanca, echo=FALSE, message=FALSE}
 kable(head(slo.reprezentanca), align="ccccc")
+```
+
+***
+
+# Analiza in vizualizacija podatkov
+
+```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE}
+source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
+```
+Pri analizi podatkov sem si pomaga s stolpičnima in črtnim grafom, ter zemljevidom, katere bom predstavila in razložila v tem razdelku.
+
+
+
+Najprej me je zanimalo katere države so bile najuspešnejše na evropskih prvenstvuh skozi vsa leta, se pravi, katere so se največkrat uvrstile med najboljše štiri države. Zdelo se me ji, da bodo med najuspešnejšimi državami največje države evrope kot so Španija, Francija, Nemčija ... in pa države, ki so bile včasih združene (Sovjetska zveza, Republika Jugoslavija...), saj imajo te lahko večji nabor igralcev, kot a nekatere manjše države. Odločila sem se, da prikažem le najuspešnejših 10 držav, da je graf bolj pregleden. 
+
+```{r top10, echo=FALSE, message=FALSE, fig.align='center' }
+print(top10)
+```
+
+Kot opazimo, so bile moje predpostavk pravilne. Vidimo, da prvih šest mest res zasedejo države, ki so večje in ki so skozi leta v zgodovini igrale pomembno vlogo.
+
+
+
+Potem pa sem želela svojo analizo glede najuspešnejših držav še nadgraditi in primerjati ali iz teh držav prihaja tudi največ igralcov, ki so skozi leta bili prepoznani kot najkoristneji igralci prvenstva (MVP). Upala bi si trditi, da  je temu tako, saj od kar spremljam prvenstva, vedno izberejo najkoristnejšega igralca iz reprezentance države, ki je zmagala to prvenstvo. 
+
+```{r MVP.drzave , echo=FALSE, message=FALSE, fig.align='center' }
+print(MVP.drzave)
+```
+
+Če primerjamo prvi in drugi graf, vidimo, da mja predpostavka ni bila čisto pravilna, a nimamo veliko odstopanj. Še vedno so med vodilnimi državami iste države, le za kakšno mesto so premaknjene gor ali dol.
+
+
+
+Med tabelami imam tudi podatke o strelcih, ki so na tekmo v povprečju dali največ košov in kakšno je bilo to število košov. Odločila sem se, da bom naredila graf, ki bo prikazoval, kako se je spreminjalo število košev enega igralca na tekmo skozi leta, ali jih sedaj dajo več ali so bili včasih bolj uspešni. Zdi se mi, da se bo število košev na tekmo večalo, saj je skozi leta šport postal vedno bolj profesionalen in pričakujemo, da smo skozi čas vedno bolj uspešni, ne samo pri košarki, ampak povsod. K temu, da pa se mi zdi, da se bo število košov enega igralca na tekmo večalo pa pripomore tudi dejstvo, da včasih niso imeli omejenega časa za napad (tako kod sedaj 24s), kar pomeni, da so lahko napad dlje časa igrali in s tem tudi v celoti dali manj košev na tekmo, kar lahko prevdemo, da je tudi najuspešnejši strelec dal manj košov v povprečju na tekmo.
+
+```{r tocke , echo=FALSE, message=FALSE, fig.align='center' }
+print(tocke)
+```
+
+Graf prikazuje, da sem načeloma imela prav, vendar pa vidimo, da imamo okoli leta 1990 kar veliko večje število točk. 
+
+
+
+Potem pa sem želela še s pomočjo zemljevida prikazati, katere države so največkrat osvojile, se pravi zmagale, evropsko prvenstvo. Prej sem pri prvem grafu Vključila vse uvrstitve do 4. mesta, sedaj pa me zanimajo le zmage. Seveda sem imela nekaj težav pri zemljevidu, saj imam med zmagovalnimi državami države, ki ne obstajajo več (Sovjetska zveza, Češkoslovaška...). Tega problema sem se lotila tako, da sem zmage vsake države pripisala, vodilni, danes obstoječi, državi prej združene države. Se pravi zmage Sovjetske zveze sem pripisala Rusiji, zmage Republike Jugoslavije sem pripisala Srbiji, ter zmage Češkoslovaške Češki. 
+
+```{r zemljevid.zmagovalci, echo=FALSE, message=FALSE, fig.align='center'}
+print(zemljevid.zmagovalci)
+```
+
+***
+```{r shiny, echo = FALSE}
+shinyAppDir("shiny", options=list(width="100%", height=800))
 ```
