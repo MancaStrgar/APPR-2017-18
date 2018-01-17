@@ -8,7 +8,6 @@ output:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
-runtime: shiny
 
 ---
 
@@ -38,7 +37,11 @@ Uvozila sem podatke o najboljših državah in najboljših košarkaših na evrops
 
 ### Opis tabel:
 
-Tabela **ep.rezultati** ima 3 stolpce. Prvi stolpec predstavlja *leta* (integer) v katerih so izvajala evropska prvenstva, drugi predstavlja *uvrstitev* (numeric) od prvega do četrtega mesta, tretji pa katera *država* (character) se je uvrstila na na določeno mesto v določenem letu.
+1. `ep.rezultati` - podatki 4 najuspešnejših držav na evroskih prvenstvih 
+
+* `leto` - leta izvajanja EP (1935-2017) (integer)
+* `uvrstitev` - številka doseženega mesta ( od 1 do 4) (numeric)
+* `država` - ime države, ki je dosegla določeno mesto na določenem EP (character)
 
 Velja še omeniti, da so evropska prvenstva vsako drugo leto in da v času od leta 1939 do leta 1946 ni bilo tekmovanj, zaradi druge stvetovne vojne, potem pa so imeli prvenstva kar dve leti zapored, nato pa ponovno na dve leti.
 
@@ -47,20 +50,35 @@ kable(head(ep.rezultati), align="ccc")
 ```
 
 
-Tabela **MVP.slo** prikazuje kateri igralec je bil najkoristnejši igralec prvenstva. Prvi stolpec so ponovno *leta* (integer) prvenstev, drugi stolpec vsebuje imena najkoristnejšega *igralca* (character) tistega leta, tretji stolpec pa iz katere *države* (character) ta igralec prihaja.
+2. `MVP.slo` - podatki najkoristnejših igralcev posameznega prvenstva
+
+* `leto` - leta izvajanja EP (1935-2017) (integer)
+* `igralec` - ime in priimek najkoristnejšega igralca (character)
+* `država` - država iz katere prihaja igralec (character)
 
 ```{r MVP.slo, echo=FALSE, message=FALSE}
 kable(head(MVP.slo), align="ccc")
 ```
 
+3. `najboljši.strelec.slo` - podatki najboljših strelcel prvenstva
 
-Iz tabele **najboljsi.strelec.slo** je možno po stolpcih razbrati, kdo je bil katerega *leta*(integer) *igralec* (character), ki je v povprečju dal največ točk na tekmo. V tretjem in četrtek stolpcu je razvidno tudi, kakšno je bilo to povprečje *točk* (numeric) na tekmo in iz katere *države* (character) ta igralec prihaja. 
+* `leto` - leta izvajanja EP (1935-2017) (integer)
+* `strelec` - ime in priimek najboljšega strelca (character)
+* `točke` - povprečno število točk na tekmo najboljšega strelca (numeric)
+* `država` - država iz katere prihaja igralec (character)
 
 ```{r najboljsi.strelec.slo, echo=FALSE, message=FALSE}
 kable(head(najboljsi.strelec.slo), align="cccc")
 ```
 
-Kot zanimivost pa je dodana zadnja tabela **slo.reprezentanca**, v kateri so predstavljeni košarkaši, ki so nas zastopali na evropskem prvenstvu leta 2017 in osvojili zlato medaljo. V prvem stolpcu imamo *imena*(character) košarkarjev, drugi stolpec predstavlja *pozicijo* (character), katero igralec igra, nato imamo podano *višino* (numeric) in datum *rojstva* (date), zadnji stolpec pa predstavlja *klub* (character) v katerem igra. 
+4. `slo.reprezentanca` - podatki igralcev, ki so zastopali Slovenijo leta 2017
+
+* `ime` - ime in priimek igralca (character)
+* `pozicija` - na katerem mestu igra igralec (character)
+* `višina` - višina igralca (numeric)
+* `rojstvo` - dan in leto rojstva igralca (date)
+* `klub` - klub za katerega igra igralec (character)
+
 
 ```{r slo.reprezentanca, echo=FALSE, message=FALSE}
 kable(head(slo.reprezentanca), align="ccccc")
@@ -113,7 +131,3 @@ Potem pa sem želela še s pomočjo zemljevida prikazati, katere države so najv
 print(zemljevid.zmagovalci)
 ```
 
-***
-```{r shiny, echo = FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=800))
-```
