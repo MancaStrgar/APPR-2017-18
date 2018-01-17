@@ -19,7 +19,6 @@ output:
 # Uvoz vseh potrebnih knjižnic
 source("lib/libraries.r", encoding = "UTF-8")
 ```
-
 # Izbira teme
 
 Odločila sem se, da bom analizirala slovenske košarkaše na letošnjem evropskem prvenstvu in evropska košarkaška prvenstva. Za to temo sem se odločila, saj me košarka že od vedno zanima, letos pa smo postali še evropski prvaki.
@@ -71,17 +70,18 @@ kable(head(MVP.slo), align="ccc")
 kable(head(najboljsi.strelec.slo), align="cccc")
 ```
 
+
 4. `slo.reprezentanca` - podatki igralcev, ki so zastopali Slovenijo leta 2017
 
 * `ime` - ime in priimek igralca (character)
 * `pozicija` - na katerem mestu igra igralec (character)
-* `višina` - višina igralca (numeric)
+* `visina` - višina igralca (numeric)
 * `rojstvo` - dan in leto rojstva igralca (date)
 * `klub` - klub za katerega igra igralec (character)
 
 
 ```{r slo.reprezentanca, echo=FALSE, message=FALSE}
-kable(head(slo.reprezentanca), align="ccccc")
+kable(head(slo.reprezentanca))
 ```
 
 ***
