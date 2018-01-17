@@ -43,7 +43,7 @@ Uvozila sem podatke o najboljših državah in najboljših košarkaših na evrops
 * `uvrstitev` - številka doseženega mesta ( od 1 do 4) (numeric)
 * `država` - ime države, ki je dosegla določeno mesto na določenem EP (character)
 
-Velja še omeniti, da so evropska prvenstva vsako drugo leto in da v času od leta 1939 do leta 1946 ni bilo tekmovanj, zaradi druge stvetovne vojne, potem pa so imeli prvenstva kar dve leti zapored, nato pa ponovno na dve leti.
+Velja še omeniti, da so evropska prvenstva vsako drugo leto in da v času od leta 1939 do leta 1946 ni bilo tekmovanj, zaradi druge svetovne vojne, potem pa so imeli prvenstva kar dve leti zapored, nato pa ponovno na dve leti.
 
 ```{r ep.rezultati, echo=FALSE, message=FALSE}
 kable(head(ep.rezultati), align="ccc")
@@ -95,7 +95,7 @@ Pri analizi podatkov sem si pomaga s stolpičnima in črtnim grafom, ter zemljev
 
 
 
-Najprej me je zanimalo katere države so bile najuspešnejše na evropskih prvenstvuh skozi vsa leta, se pravi, katere so se največkrat uvrstile med najboljše štiri države. Zdelo se me ji, da bodo med najuspešnejšimi državami največje države evrope kot so Španija, Francija, Nemčija ... in pa države, ki so bile včasih združene (Sovjetska zveza, Republika Jugoslavija...), saj imajo te lahko večji nabor igralcev, kot a nekatere manjše države. Odločila sem se, da prikažem le najuspešnejših 10 držav, da je graf bolj pregleden. 
+Najprej me je zanimalo, katere države so bile najuspešnejše na evropskih prvenstvih skozi vsa leta, se pravi, katere so se največkrat uvrstile med najboljše štiri države. Zdelo se me ji, da bodo med najuspešnejšimi državami največje države Evrope kot so Španija, Francija, Nemčija ... in pa države, ki so bile včasih združene (Sovjetska zveza, Republika Jugoslavija...), saj imajo te lahko večji nabor igralcev, kot pa nekatere manjše države. Odločila sem se, da prikažem le najuspešnejših 10 držav, da je graf bolj pregleden. 
 
 ```{r top10, echo=FALSE, message=FALSE, fig.align='center' }
 print(top10)
@@ -105,7 +105,7 @@ Kot opazimo, so bile moje predpostavk pravilne. Vidimo, da prvih šest mest res 
 
 
 
-Potem pa sem želela svojo analizo glede najuspešnejših držav še nadgraditi in primerjati ali iz teh držav prihaja tudi največ igralcov, ki so skozi leta bili prepoznani kot najkoristneji igralci prvenstva (MVP). Upala bi si trditi, da  je temu tako, saj od kar spremljam prvenstva, vedno izberejo najkoristnejšega igralca iz reprezentance države, ki je zmagala to prvenstvo. 
+Potem pa sem želela svojo analizo glede najuspešnejših držav še nadgraditi in primerjati, ali iz teh držav prihaja tudi največ igralcev, ki so bili skozi leta  prepoznani kot najkoristneji igralci prvenstva (MVP). Upala bi si trditi, da  je temu tako, saj od kar spremljam prvenstva, vedno izberejo najkoristnejšega igralca iz reprezentance države, ki je zmagala to prvenstvo. 
 
 ```{r MVP.drzave , echo=FALSE, message=FALSE, fig.align='center' }
 print(MVP.drzave)
@@ -125,7 +125,7 @@ Graf prikazuje, da sem načeloma imela prav, vendar pa vidimo, da imamo okoli le
 
 
 
-Potem pa sem želela še s pomočjo zemljevida prikazati, katere države so največkrat osvojile, se pravi zmagale, evropsko prvenstvo. Prej sem pri prvem grafu Vključila vse uvrstitve do 4. mesta, sedaj pa me zanimajo le zmage. Seveda sem imela nekaj težav pri zemljevidu, saj imam med zmagovalnimi državami države, ki ne obstajajo več (Sovjetska zveza, Češkoslovaška...). Tega problema sem se lotila tako, da sem zmage vsake države pripisala, vodilni, danes obstoječi, državi prej združene države. Se pravi zmage Sovjetske zveze sem pripisala Rusiji, zmage Republike Jugoslavije sem pripisala Srbiji, ter zmage Češkoslovaške Češki. 
+Potem pa sem želela še s pomočjo zemljevida prikazati, katere države so največkrat osvojile, se pravi zmagale, evropsko prvenstvo. Prej sem pri prvem grafu Vključila vse uvrstitve do 4. mesta, sedaj pa me zanimajo le zmage. Seveda sem imela nekaj težav pri zemljevidu, saj imam med zmagovalnimi državami države, ki ne obstajajo več (Sovjetska zveza, Češkoslovaška...). Tega problema sem se lotila tako, da sem zmage vsake države pripisala vodilni, danes obstoječi, državi prej združene države. Se pravi zmage Sovjetske zveze sem pripisala Rusiji, zmage Republike Jugoslavije sem pripisala Srbiji, ter zmage Češkoslovaške Češki. 
 
 ```{r zemljevid.zmagovalci, echo=FALSE, message=FALSE, fig.align='center'}
 print(zemljevid.zmagovalci)
