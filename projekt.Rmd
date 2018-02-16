@@ -19,6 +19,13 @@ output:
 # Uvoz vseh potrebnih knjižnic
 source("lib/libraries.r", encoding = "UTF-8")
 ```
+<center>
+
+![](slike/EURO.png)
+
+</center>
+
+
 # Izbira teme
 
 Odločila sem se, da bom analizirala evropska košarkaška prvenstva, za dodatek pa povedala še nekaj malega o reprezentanci, ki je Sloveniji priborila naslov evropskih prvakov. Za to temo sem se odločila, saj me košarka že od vedno zanima, letos pa smo postali še evropski prvaki.
