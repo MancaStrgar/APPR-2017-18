@@ -21,6 +21,7 @@ MVP.drzave <- ggplot(MVP.slo %>% group_by(DRZAVA) %>% summarise(stevilo = n()),
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
   ggtitle(" Število MVP-jev na državo")
 
+
 library(ggplot2)
 library(dplyr)
 library(readr)
@@ -57,6 +58,6 @@ zemljevid.zmagovalci <- ggplot() +
                  group_by(SOVEREIGNT) %>% summarise(stevilo = sum(stevilo)) %>%
                  right_join(evropa),
                aes(x = long, y = lat, group = group, fill = stevilo)) +
-  ggtitle("Zmagovalci evropskega prvenstva") +
+  ggtitle("Zmagovalci evropskih prvenstev") +
   coord_cartesian(xlim = c(-22, 40), ylim = c(30, 70))
 

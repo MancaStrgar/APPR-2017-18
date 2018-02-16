@@ -19,15 +19,6 @@ uvozi.ep.rezultati <- function() {
 ep.rezultati <- uvozi.ep.rezultati()
 
 
-#Funkcija, ki uvozi podatke o tem koliko procentov bdp-ja država investira v šport od leta 2000 do 2015
-uvozi.investicij <- function() {
-  data <- read_csv("podatki/procenti.csv", na = ":",
-                   locale = locale(encoding = "UTF-8"))
-  data <- data[,-c(3,4,5,6,8)]
-  return(data)
-}
-investicije <-uvozi.investicij()
-povprecje <- investicije %>% group_by(GEO) %>% summarise(procenti = round(sum(Value, na.rm = TRUE)/n(), 2))
 
 # Funkcija, ki uvozi najkoristnejšege igralce EP
 uvozi.MVP <- function() {

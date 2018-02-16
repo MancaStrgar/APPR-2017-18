@@ -21,7 +21,7 @@ source("lib/libraries.r", encoding = "UTF-8")
 ```
 # Izbira teme
 
-Odločila sem se, da bom analizirala slovenske košarkaše na letošnjem evropskem prvenstvu in evropska košarkaška prvenstva. Za to temo sem se odločila, saj me košarka že od vedno zanima, letos pa smo postali še evropski prvaki.
+Odločila sem se, da bom analizirala evropska košarkaška prvenstva, za dodatek pa povedala še nekaj malega o reprezentanci, ki je Sloveniji priborila naslov evropskih prvakov. Za to temo sem se odločila, saj me košarka že od vedno zanima, letos pa smo postali še evropski prvaki.
 
 ***
 
@@ -95,7 +95,7 @@ Pri analizi podatkov sem si pomaga s stolpičnima in črtnim grafom, ter zemljev
 
 
 
-Najprej me je zanimalo, katere države so bile najuspešnejše na evropskih prvenstvih skozi vsa leta, se pravi, katere so se največkrat uvrstile med najboljše štiri države. Zdelo se me ji, da bodo med najuspešnejšimi državami največje države Evrope kot so Španija, Francija, Nemčija ... in pa države, ki so bile včasih združene (Sovjetska zveza, Republika Jugoslavija...), saj imajo te lahko večji nabor igralcev, kot pa nekatere manjše države. Odločila sem se, da prikažem le najuspešnejših 10 držav, da je graf bolj pregleden. 
+Najprej me je zanimalo, katere države so bile najuspešnejše na evropskih prvenstvih skozi vsa leta, se pravi, katere so se največkrat uvrstile med najboljše štiri države. Zdelo se me je, da bodo med najuspešnejšimi državami največje države Evrope kot so Španija, Francija, Nemčija ... in pa države, ki so bile včasih združene (Sovjetska zveza, Republika Jugoslavija...), saj imajo te lahko večji nabor igralcev, kot pa nekatere manjše države. Odločila sem se, da prikažem le najuspešnejših 10 držav, da je graf bolj pregleden. 
 
 ```{r top10, echo=FALSE, message=FALSE, fig.align='center' }
 print(top10)
@@ -131,3 +131,4 @@ Potem pa sem želela še s pomočjo zemljevida prikazati, katere države so najv
 print(zemljevid.zmagovalci)
 ```
 
+Na zemljevidu je razvidno, da je moja predpostavka da so "vodilne države" (Rusija, Špnija, Francija, Nemčija...), res uspešnejše. Vidimo, da so one prevzele večino zmag, nekaj jih imajo tudi balkanske in baltske države. To je nekako predvidljivo, ker imajo, te države večji nabor igralcev, saj imajo več prebivalstva in tudi večji BDP, s tem predvidoma tudi večje možnosti za investicije v šport.
